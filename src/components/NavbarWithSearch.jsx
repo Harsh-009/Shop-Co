@@ -19,6 +19,7 @@ import dropIcon from "../assets/dropIcon.svg";
 import { Link } from "react-router-dom";
 
 export default function NavbarWithSearch() {
+  const [isLogin, setIsLogin] = useState(false)
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
@@ -138,7 +139,8 @@ export default function NavbarWithSearch() {
                   </div>
                 </MenuHandler>
                 <MenuList>
-                  <MenuItem>
+                  {
+                    isLogin ? <><MenuItem>
                     <Link className="font-Satoshi font-medium" to="/profile">Profile</Link>
                   </MenuItem>
                   <MenuItem>
@@ -149,7 +151,10 @@ export default function NavbarWithSearch() {
                   </MenuItem>
                   <MenuItem>
                     <Link className="font-Satoshi font-medium" to="/logout">Logout</Link>
+                  </MenuItem></> : <MenuItem>
+                    <Link className="font-Satoshi font-medium" to="/logout">Login</Link>
                   </MenuItem>
+                  }
                 </MenuList>
               </Menu>
             </Typography>

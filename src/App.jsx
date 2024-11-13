@@ -1,11 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./pages/RootLayout.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import ProductDetails from './components/ProductDetails.jsx'
 import ProductRoot from "./pages/ProductRoot.jsx";
-import Products from "./components/Products.jsx";
 import DetailsPage from "./pages/DetailsPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
+import AuthPage from "./pages/AuthPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,9 +26,13 @@ const router = createBrowserRouter([
       {
         path: '/cart',
         element: <CartPage />
-      }
+      },
     ],
   },
+  {
+    path: '/auth',
+    element: <AuthPage />
+  }
 ]);
 
 function App() {
