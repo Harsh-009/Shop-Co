@@ -4,8 +4,8 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg w-full max-w-lg mx-4">
+    <div onClick={onClose} className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-lg w-full max-w-lg mx-4" onClick={(e) => e.stopPropagation()} >
         <div className="flex justify-between items-center p-6 border-b">
           <h2 className="text-xl font-bold">{title}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-black">
