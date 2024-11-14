@@ -5,6 +5,7 @@ import ProductRoot from "./pages/ProductRoot.jsx";
 import DetailsPage from "./pages/DetailsPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,12 +28,16 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <CartPage />
       },
+      {
+        path: '/profile', 
+        element: <ProfilePage />
+      }
     ],
   },
   {
     path: '/auth',
     element: <AuthPage />
-  }
+  },
 ]);
 
 function App() {
