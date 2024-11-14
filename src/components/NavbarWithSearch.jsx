@@ -19,7 +19,7 @@ import dropIcon from "../assets/dropIcon.svg";
 import { Link } from "react-router-dom";
 
 export default function NavbarWithSearch() {
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(false);
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
@@ -134,31 +134,51 @@ export default function NavbarWithSearch() {
               <Menu placement="bottom-start">
                 <MenuHandler>
                   <div className="flex gap-1  cursor-pointer">
-                    <img className="cursor-pointer" src={profileIcon} alt="profile" />
+                    <img
+                      className="cursor-pointer"
+                      src={profileIcon}
+                      alt="profile"
+                    />
                     <img src={dropIcon} alt="drop" />
                   </div>
                 </MenuHandler>
                 <MenuList>
-                  {
-                    isLogin ? <><MenuItem>
-                    <Link className="font-Satoshi font-medium" to="/profile">Profile</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link className="font-Satoshi font-medium" to="/orders">Orders</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link className="font-Satoshi font-medium" to="/cart">Cart</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link className="font-Satoshi font-medium" to="/logout">Logout</Link>
-                  </MenuItem></> : <MenuItem>
-                    <Link className="font-Satoshi font-medium" to="/logout">Login</Link>
-                  </MenuItem>
-                  }
+                  {isLogin ? (
+                    <>
+                      <MenuItem>
+                        <Link
+                          className="font-Satoshi font-medium"
+                          to="/profile"
+                        >
+                          Profile
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link className="font-Satoshi font-medium" to="/orders">
+                          Orders
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link className="font-Satoshi font-medium" to="/cart">
+                          Cart
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link className="font-Satoshi font-medium" to="/logout">
+                          Logout
+                        </Link>
+                      </MenuItem>
+                    </>
+                  ) : (
+                    <MenuItem className="hover:border-none w-full">
+                      <Link className="font-Satoshi font-medium w-full h-full" to="/auth">
+                        Login
+                      </Link>
+                    </MenuItem>
+                  )}
                 </MenuList>
               </Menu>
             </Typography>
-            
           </div>
         </div>
         <IconButton
