@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 // import DiscountHeader from '../components/DiscountHeader'
 import Footer from "../components/Footer.jsx";
-import NavbarWithSearch from "../components/NavbarWithSearch.jsx";
 import Navbar from "../components/Navbar.jsx";
 
 function RootLayout() {
