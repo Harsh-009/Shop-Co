@@ -2,24 +2,32 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Menu,
   Search,
-  ShoppingCart,
-  User,
   ChevronDown,
   ChevronRight,
+  UserCircle,
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  LogOut,
+  LogIn,
 } from "lucide-react";
 import cartIcon from "../assets/cartIcon.svg";
 import profileIcon from "../assets/profileIcon.svg";
 import { Link } from "react-router-dom";
-import Logo from '../assets/NavLogo.svg'
+import Logo from "../assets/NavLogo.svg";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
 
   const shopMenuRef = useRef(null);
   const shopButtonRef = useRef(null);
   const sidebarRef = useRef(null);
+  const userMenuRef = useRef(null);
+  const userButtonRef = useRef(null);
 
   const categories = {
     Topwear: [
@@ -76,13 +84,24 @@ const Navbar = () => {
         setIsShopMenuOpen(false);
         setSelectedCategory(null);
       }
+
+      //handle profile click
+      // Handle user menu clicks
+      if (
+        isUserMenuOpen &&
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target) &&
+        !userButtonRef.current.contains(event.target)
+      ) {
+        setIsUserMenuOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isShopMenuOpen]);
+  }, [isShopMenuOpen, isUserMenuOpen]);
 
   // Add body scroll lock when sidebar is open
   useEffect(() => {
@@ -104,6 +123,18 @@ const Navbar = () => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(selectedCategory === category ? null : category);
   };
+
+  const handleUserMenuClick = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  const userMenuItems = [
+    { icon: UserCircle, label: "Profile", href: "/profile" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: Package, label: "Orders", href: "/orders" },
+    { icon: ShoppingCart, label: "Cart", href: "/cart" },
+    { icon: LogOut, label: "Logout", href: "/logout" },
+  ];
 
   return (
     <div className="relative font-Satoshi">
@@ -128,33 +159,39 @@ const Navbar = () => {
               >
                 <Menu className="h-6 w-6" />
               </button>
-              <div className="flex items-center">
+              <Link to="/" className="flex items-center">
                 <img src={Logo} alt="shop" className="sm:scale-100 scale-75" />
-              </div>
+              </Link>
             </div>
 
             {/* Center Section */}
             <div className="hidden lg:flex lg:space-x-8">
               <button
                 ref={shopButtonRef}
-                className="text-gray-700 hover:text-gray-900 px-3 py-2 relative group flex items-center"
+                className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium relative group flex items-center"
                 onClick={handleShopClick}
+                // onMouseEnter={handleShopClick}
+                // onMouseLeave={handleShopClick}
               >
                 Shop
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                 <ChevronDown
                   className={`ml-1 h-4 w-4 transform transition-transform duration-300 ${
                     isShopMenuOpen ? "rotate-180" : ""
                   }`}
                 />
               </button>
-              <button className="text-gray-700 hover:text-gray-900 px-3 py-2 relative group">
+              <button className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium relative group">
                 On Sale
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </button>
-              <button className="text-gray-700 hover:text-gray-900 px-3 py-2 relative group">
+              <button className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium relative group">
                 New Arrivals
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </button>
-              <button className="text-gray-700 hover:text-gray-900 px-3 py-2 relative group">
+              <button className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium relative group">
                 Brands
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </button>
             </div>
 
@@ -173,15 +210,62 @@ const Navbar = () => {
                   <img className="cursor-pointer" src={cartIcon} alt="cart" />
                 </Link>
               </button>
+              <div className="flex items-center">
               <button className="text-gray-700 hover:text-gray-900 transition-colors duration-200">
-                <Link to="/profile">
-                  <img
-                    className="cursor-pointer"
-                    src={profileIcon}
-                    alt="cart"
-                  />
-                </Link>
+                <img
+                  onClick={handleUserMenuClick}
+                  ref={userButtonRef}
+                  className="cursor-pointer"
+                  src={profileIcon}
+                  alt="cart"
+                />
               </button>
+              {/* User Dropdown Menu */}
+              <div className="relative ">
+                {isUserMenuOpen && (
+                  <div
+                    ref={userMenuRef}
+                    className="absolute -right-0 top-2 mt-2 w-48 bg-white rounded-md shadow-lg p-1 ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                  >
+                    {isLogin ? (
+                      userMenuItems.map((item, index) => (
+                        <Link
+                          onClick={handleUserMenuClick}
+                          key={item.label}
+                          to={item.href}
+                          className={`
+                          flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100
+                          ${
+                            index !== userMenuItems.length - 1
+                              ? "border-b border-gray-100"
+                              : ""
+                          }
+                        `}
+                        >
+                          <item.icon className="h-4 w-4 mr-3 text-gray-500" />
+                          {item.label}
+                        </Link>
+                      ))
+                    ) : (
+                      <Link
+                        onClick={handleUserMenuClick}
+                        to="/auth"
+                        className={`
+                      flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100
+                       "border-b border-gray-100"
+                        
+                      
+                    `}
+                      >
+                        {/* <item.icon className="h-4 w-4 mr-3 text-gray-500" /> */}
+                        <LogIn className="h-4 w-4 mr-3 text-gray-500" />
+                        Login
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
+              </div>
             </div>
           </div>
         </div>
@@ -199,7 +283,9 @@ const Navbar = () => {
                 key={category}
                 className="transform transition-all duration-300"
               >
-                <h3 className="text-gray-500 font-medium mb-4">{category}</h3>
+                <h3 className="text-black underline font-medium mb-4">
+                  {category}
+                </h3>
                 <ul className="space-y-2">
                   {items.map((item) => (
                     <li key={item}>
